@@ -1,0 +1,15 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+#
+# ANTHROPIC_API_KEY is intentionally NOT set here. `sync: false` tells Render
+# this environment variable must be entered manually in the dashboard
+# (Environment tab) after the service is created — the real key must never
+# be committed to this file or to git. See DEPLOY.md for the full steps.
+services:
+  - type: web
+    name: meeting-notes-summarizer
+    runtime: node
+    buildCommand: npm run build
+    startCommand: npm start
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
