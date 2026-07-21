@@ -1,11 +1,15 @@
+// Must be the first import: ES module imports are hoisted and evaluated
+// before this file's own top-level code, so a plain `import dotenv from
+// "dotenv"` followed by a later `dotenv.config()` call would run AFTER
+// downstream imports (like ./routes/summarize -> ./services/claudeClient)
+// have already read process.env at their own module scope. The "dotenv/config"
+// side-effect import loads .env immediately as part of the import itself, so
+// it must be listed first to run before anything else does.
+import "dotenv/config";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
 import express from "express";
-
-// Loads .env in local dev; a no-op if the platform (Railway/Render) already
-// injected environment variables directly.
-dotenv.config();
+import summarizeRouter from "./routes/summarize";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,7 +19,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// API routes mounted here
+app.use("/api/summarize", summarizeRouter);
 
 const clientDistPath = path.join(__dirname, "..", "client", "dist");
 app.use(express.static(clientDistPath));
