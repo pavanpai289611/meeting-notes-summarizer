@@ -1,6 +1,7 @@
 # Meeting Notes Summarizer
 
 **Live app:** https://meeting-notes-summarizer-gqhx.onrender.com
+**Repository:** https://github.com/pavanpai289611/meeting-notes-summarizer
 
 AI-powered meeting notes summarizer — paste raw notes or transcripts, get a structured summary
 with key discussion points, decisions made, and action items with owners. Built with React

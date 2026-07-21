@@ -1,9 +1,9 @@
 # CAPSTONE SELF-ASSESSMENT
 
 **Project:** Meeting Notes Summarizer
-**Completed:** [today's date]
+**Completed:** 2026-07-21
 **Deployed URL:** https://meeting-notes-summarizer-gqhx.onrender.com
-**Repository:** [your GitHub URL]
+**Repository:** https://github.com/pavanpai289611/meeting-notes-summarizer
 
 ## DIMENSION SCORES
 
