@@ -17,6 +17,26 @@ export class ApiError extends Error {
   }
 }
 
+export function getErrorMessage(error: unknown): string {
+  if (error instanceof ApiError) {
+    switch (error.code) {
+      case "EMPTY_INPUT":
+        return "Please paste some meeting notes before summarizing.";
+      case "TIMEOUT":
+        return "Summarization is taking too long. Please try again in a moment.";
+      case "SUMMARIZATION_FAILED":
+        return "Something went wrong generating the summary. Please try again.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  }
+
+  // Not an ApiError — the request never got a response to parse at all
+  // (fetch itself rejected, e.g. the server is unreachable) or something
+  // failed in an unexpected shape. Never surface the raw error here.
+  return "Couldn't reach the server. Check your connection and try again.";
+}
+
 export async function summarize(transcript: string): Promise<Summary> {
   const response = await fetch("/api/summarize", {
     method: "POST",

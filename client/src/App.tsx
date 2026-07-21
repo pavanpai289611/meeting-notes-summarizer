@@ -4,7 +4,7 @@ import ErrorBanner from "./components/ErrorBanner";
 import HistoryList from "./components/HistoryList";
 import InputPanel from "./components/InputPanel";
 import SummaryView from "./components/SummaryView";
-import { summarize } from "./lib/api";
+import { getErrorMessage, summarize } from "./lib/api";
 import { deleteRecord, loadRecords, saveRecord } from "./lib/storage";
 import type { Summary, SummaryRecord } from "./types";
 
@@ -34,9 +34,7 @@ function App() {
       };
       setHistory(saveRecord(record));
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Something went wrong.",
-      );
+      setErrorMessage(getErrorMessage(error));
     } finally {
       setIsLoading(false);
     }
