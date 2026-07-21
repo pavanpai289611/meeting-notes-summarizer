@@ -88,3 +88,22 @@
 .history-delete {
   cursor: pointer;
 }
+
+@media (max-width: 640px) {
+  .app {
+    padding: 1.5rem 1rem;
+  }
+
+  .app h1 {
+    font-size: 1.75rem;
+  }
+
+  .history-list li {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .history-item {
+    flex-basis: 100%;
+  }
+}

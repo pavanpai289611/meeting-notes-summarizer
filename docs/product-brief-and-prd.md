@@ -89,7 +89,7 @@ Raw meeting notes and transcripts are unstructured and time-consuming to review.
 5. Editing/correcting the generated summary output before saving.
 6. Export/integration with third-party tools (Slack, email, calendar, Notion, Jira, etc.).
 7. Summary quality analytics, feedback loops, or fine-tuning based on usage.
-8. Mobile-optimized/responsive design polish beyond basic usability.
+8. ~~Mobile-optimized/responsive design polish beyond basic usability.~~ **Reversed in Sprint 2:** basic mobile-responsive layout for the input/summarize screen and the history screen was added per stakeholder change request (see `docs/impact-assessment.md`) — a capped header size and a stacked history-item layout at narrow widths. Deeper mobile polish beyond these two screens remains out of scope.
 9. Rate limiting, billing/usage caps, or cost dashboards for API usage.
 
 ### 2.7 Success Metrics
