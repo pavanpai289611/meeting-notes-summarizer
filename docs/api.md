@@ -67,7 +67,7 @@ Every error response uses the same shape:
 ```json
 {
   "error": {
-    "code": "EMPTY_INPUT | SUMMARIZATION_FAILED | TIMEOUT",
+    "code": "EMPTY_INPUT | SUMMARIZATION_FAILED | TIMEOUT | BAD_REQUEST | PAYLOAD_TOO_LARGE",
     "message": "human-readable string, safe to display directly in a UI"
   }
 }
@@ -78,6 +78,8 @@ Every error response uses the same shape:
 | `400 Bad Request` | `EMPTY_INPUT` | `transcript` is missing, not a string, or empty/whitespace-only after trimming. The Claude API is never called in this case. |
 | `502 Bad Gateway` | `SUMMARIZATION_FAILED` | The call to the Claude API fails for any reason other than a timeout — auth failure, rate limit, a 5xx from Claude, or the model's response failing schema validation (`parsed_output` comes back null). |
 | `504 Gateway Timeout` | `TIMEOUT` | The Claude API call exceeds the server's client-side timeout (`30_000`ms, set in `claudeClient.ts`), detected via the Anthropic SDK's `APIConnectionTimeoutError`. |
+| `400 Bad Request` | `BAD_REQUEST` | The request body is not valid JSON |
+| `413 Payload Too Large` | `PAYLOAD_TOO_LARGE` | The request body exceeds the server's size limit |
 
 In every error case, the real underlying error (SDK exception, stack trace, upstream error
 body) is logged server-side via `console.error` only — it is never included in the JSON
@@ -101,6 +103,15 @@ curl -X POST http://localhost:3000/api/summarize \
   -d '{"transcript": "Alice and Bob discussed the Q1 roadmap. They decided to ship the beta in March. Alice will draft the announcement."}'
 # 200
 # {"summary":{"keyDiscussionPoints":[...],"decisionsMade":[...],"actionItems":[{"task":"Draft the announcement","owner":"Alice"}]}}
+```
+
+**Oversized payload:**
+```bash
+curl -X POST http://localhost:3000/api/summarize \
+  -H "Content-Type: application/json" \
+  -d "{\"transcript\": \"$(head -c 150000 </dev/zero | tr '\0' 'x')\"}"
+# 413
+# {"error":{"code":"PAYLOAD_TOO_LARGE","message":"Meeting notes are too long. Please shorten and try again."}}
 ```
 
 ### Notes
