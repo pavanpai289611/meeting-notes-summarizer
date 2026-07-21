@@ -16,6 +16,7 @@ export default function InputPanel({
   return (
     <section className="input-panel">
       <textarea
+        id="transcript-input"
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="Paste your meeting notes or transcript here…"
