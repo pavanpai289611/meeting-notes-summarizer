@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import ErrorBanner from "./components/ErrorBanner";
 import HistoryList from "./components/HistoryList";
 import InputPanel from "./components/InputPanel";
 import SummaryView from "./components/SummaryView";
 import { summarize } from "./lib/api";
+import { deleteRecord, loadRecords, saveRecord } from "./lib/storage";
 import type { Summary, SummaryRecord } from "./types";
 
 function App() {
@@ -14,12 +15,24 @@ function App() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [history, setHistory] = useState<SummaryRecord[]>([]);
 
+  useEffect(() => {
+    setHistory(loadRecords());
+  }, []);
+
   async function handleSubmit() {
     setIsLoading(true);
     try {
       const summary = await summarize(inputText);
       setCurrentSummary(summary);
       setErrorMessage(null);
+
+      const record: SummaryRecord = {
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+        inputText,
+        summary,
+      };
+      setHistory(saveRecord(record));
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Something went wrong.",
@@ -35,7 +48,7 @@ function App() {
   }
 
   function handleDelete(id: string) {
-    setHistory((prev) => prev.filter((record) => record.id !== id));
+    setHistory(deleteRecord(id));
   }
 
   return (
