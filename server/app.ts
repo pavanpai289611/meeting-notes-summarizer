@@ -29,4 +29,49 @@ app.use((_req, res) => {
   res.sendFile(path.join(clientDistPath, "index.html"));
 });
 
+// Global error handler — MUST be registered last (an Express error handler is
+// identified purely by having 4 parameters, and only catches errors from
+// middleware/routes registered before it). Without this, body-parser errors
+// (malformed JSON, oversized payloads) fall through to Express's default
+// handler, which returns an HTML page with a full stack trace and absolute
+// filesystem paths — a real information-disclosure gap found during a
+// security review. This never echoes the underlying error's message or stack
+// to the client, regardless of NODE_ENV — the fix does not rely on the
+// platform happening to set NODE_ENV=production.
+app.use(
+  (err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    const type = (err as { type?: string } | null)?.type;
+
+    if (type === "entity.too.large") {
+      console.error("Request body too large:", err);
+      res.status(413).json({
+        error: {
+          code: "PAYLOAD_TOO_LARGE",
+          message: "Meeting notes are too long. Please shorten and try again.",
+        },
+      });
+      return;
+    }
+
+    if (type === "entity.parse.failed" || err instanceof SyntaxError) {
+      console.error("Malformed request body:", err);
+      res.status(400).json({
+        error: {
+          code: "BAD_REQUEST",
+          message: "Invalid request.",
+        },
+      });
+      return;
+    }
+
+    console.error("Unhandled error:", err);
+    res.status(500).json({
+      error: {
+        code: "INTERNAL_ERROR",
+        message: "Something went wrong. Please try again.",
+      },
+    });
+  },
+);
+
 export default app;
