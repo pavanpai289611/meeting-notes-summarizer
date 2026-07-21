@@ -2,7 +2,7 @@
 
 **Project:** Meeting Notes Summarizer
 **Completed:** [today's date]
-**Deployed URL:** [your Render URL]
+**Deployed URL:** https://meeting-notes-summarizer-gqhx.onrender.com
 **Repository:** [your GitHub URL]
 
 ## DIMENSION SCORES
@@ -18,7 +18,7 @@
 | Security | 4 | Full 4-finding review performed, one real vulnerability found (stack-trace/path leakage on malformed/oversized requests), fixed with a specific technical mechanism, and re-verified against the original failing requests | `docs/security-review.md` |
 | Testing | 3 | 8 automated tests (backend route + storage layer, fully mocked Claude client) plus extensive manual/Playwright verification per task; no UI component tests, no end-to-end test framework | `server/routes/summarize.test.ts`, `client/src/lib/storage.test.ts` |
 | Documentation | 4 | README, API reference, architecture doc, PRD, prompt library, and audit/review docs all present, cross-linked, and accurate to actual implementation (verified, not aspirational) | `README.md`, `docs/api.md` |
-| Deployment | 4 | Deployed to Render, verified working end-to-end on the live URL (not just locally) including a real Claude call and localStorage persistence surviving a reload; build/start scripts verified from a genuinely clean checkout | [your live URL] |
+| Deployment | 4 | Deployed to Render, verified working end-to-end on the live URL (not just locally) including a real Claude call and localStorage persistence surviving a reload; build/start scripts verified from a genuinely clean checkout | https://meeting-notes-summarizer-gqhx.onrender.com |
 | Debugging Recovery | 4 | 3 documented failures, each with pattern identification, diagnosis before action (not blind retry), and confirmed recovery — including one (the security finding) that was proactively discovered via review rather than only reactively hit | `docs/debugging-journal.md` |
 | Change Request | 4 | Impact assessment caught that the request reversed an explicit prior PRD decision before any code was written; implementation verified at 3 real viewports plus a desktop regression check; followed by a full backlog audit against all 14 PRD acceptance criteria with 2 real gaps found and closed with empirical evidence | `docs/change-request-impact-assessment.md`, `docs/change-request-backlog-audit.md` |
 | Product Thinking | 3 | Solves a real, specific problem with a scoped MVP; UX is functional and now mobile-responsive but not polished (no loading skeletons, no inline editing, no export) — deliberately, per PRD out-of-scope decisions | Live deployed URL, tested end-to-end (no separate demo recording produced given time constraints) |

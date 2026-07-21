@@ -1,5 +1,7 @@
 # Meeting Notes Summarizer
 
+**Live app:** https://meeting-notes-summarizer-gqhx.onrender.com
+
 AI-powered meeting notes summarizer — paste raw notes or transcripts, get a structured summary
 with key discussion points, decisions made, and action items with owners. Built with React
 (Vite), Node/Express, and the Claude API. Single-user, no accounts, no database — summaries
